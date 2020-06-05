@@ -81,7 +81,7 @@ namespace cinema_core
                     new string[] { }
                 }
                 });
-                c.OperationFilter<AuthenticationRequirementsOperationFilter>();
+                //c.OperationFilter<AuthenticationRequirementsOperationFilter>();
             });
 
             var connectionString = Configuration["connectionString:defaultConnection"];
