@@ -34,7 +34,7 @@ namespace cinema_core.Controllers
         }
 
         // GET: api/screen-types/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetScreenType")]
         [AllowAnonymous]
         public IActionResult Get(int id)
         {
@@ -46,20 +46,70 @@ namespace cinema_core.Controllers
 
         // POST: api/screen-types
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] ScreenType screenType)
         {
+            if (screenType == null) return StatusCode(400, ModelState);
+
+            var isExist = screenTypeRepository.GetScreenTypeByName(screenType.Name);
+
+            if (isExist != null)
+            {
+                ModelState.AddModelError("", $"Screen type {screenType.Name} is exist");
+                return StatusCode(400, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return StatusCode(400, ModelState);
+
+            if (!screenTypeRepository.CreateScreenType(screenType))
+            {
+                ModelState.AddModelError("", "Something went wrong when save screen type");
+                return StatusCode(400, ModelState);
+            }
+            return CreatedAtRoute("GetScreenType", new { id = screenType.Id }, screenType);
         }
 
         // PUT: api/screen-types/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] ScreenType screenType)
         {
+            var isExist = screenTypeRepository.GetScreenTypeById(id);
+            if (isExist == null) return NotFound();
+
+            if (screenType == null) return StatusCode(400, ModelState);
+
+            var isDuplicate = screenTypeRepository.GetScreenTypeByName(screenType.Name);
+
+            if (isDuplicate != null)
+            {
+                ModelState.AddModelError("", $"Screen type {screenType.Name} is exist");
+                return StatusCode(400, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return StatusCode(400, ModelState);
+
+            if (!screenTypeRepository.UpdateScreenType(screenType))
+            {
+                ModelState.AddModelError("", "Something went wrong when update screen type");
+                return StatusCode(400, ModelState);
+            }
+            return CreatedAtRoute("GetScreenType", new { id = screenType.Id }, screenType);
         }
 
         // DELETE: api/screen-types/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var isExist = screenTypeRepository.GetScreenTypeById(id);
+            if (isExist == null) return NotFound();
+
+            if (!screenTypeRepository.DeleteScreenType(isExist))
+            {
+                ModelState.AddModelError("", "Something went wrong when delete screen type");
+                return StatusCode(400, ModelState);
+            }
+            return Ok(isExist);
         }
     }
 }

@@ -10,6 +10,12 @@ namespace cinema_core.Repositories
     public interface IScreenTypeRepository
     {
         ICollection<ScreenTypeDTO> GetScreenTypes();
-        ScreenTypeDTO GetScreenTypeById(int Id);
+        ScreenType GetScreenTypeById(int Id);
+        ScreenType GetScreenTypeByName(string name);
+
+        bool CreateScreenType(ScreenType screenType);
+        bool UpdateScreenType(ScreenType screenType);
+        bool DeleteScreenType(ScreenType screenType);
+        bool Save();
     }
 }

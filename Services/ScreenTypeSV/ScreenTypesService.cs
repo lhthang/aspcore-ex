@@ -16,16 +16,28 @@ namespace cinema_core.Services.ScreenTypeSV
         {
             dbContext = context;
         }
-        public ScreenTypeDTO GetScreenTypeById(int Id)
+        public bool CreateScreenType(ScreenType screenType)
+        {
+            dbContext.AddAsync(screenType);
+            return Save();
+        }
+
+        public bool DeleteScreenType(ScreenType screenType)
+        {
+            dbContext.Remove(screenType);
+            return Save();
+        }
+
+        public ScreenType GetScreenTypeById(int Id)
         {
             var screenType = dbContext.ScreenTypes.Where(sc => sc.Id == Id).FirstOrDefault();
-            if (screenType == null)
-                return null;
-            return new ScreenTypeDTO()
-            {
-                Id = screenType.Id,
-                Name = screenType.Name,
-            };
+            return screenType;
+        }
+
+        public ScreenType GetScreenTypeByName(string name)
+        {
+            var screenType = dbContext.ScreenTypes.Where(sc => sc.Name == name).FirstOrDefault();
+            return screenType;
         }
 
         public ICollection<ScreenTypeDTO> GetScreenTypes()
@@ -41,6 +53,18 @@ namespace cinema_core.Services.ScreenTypeSV
                 });
             }
             return results;
+        }
+
+        public bool Save()
+        {
+            var save = dbContext.SaveChanges();
+            return save > 0;
+        }
+
+        public bool UpdateScreenType(ScreenType screenType)
+        {
+            dbContext.Update(screenType);
+            return Save();
         }
     }
 }

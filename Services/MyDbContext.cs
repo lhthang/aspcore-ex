@@ -1,5 +1,4 @@
 ﻿using cinema_core.Models;
-using cinema_core.Models.Rate;
 using cinema_core.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,7 +15,6 @@ namespace cinema_core.Services
         }
 
         public virtual DbSet<ScreenType> ScreenTypes { get; set; }
-        public virtual DbSet<Rate> Rates { get; set; }
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
