@@ -18,22 +18,40 @@ namespace cinema_core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("cinema_core.Models.Rate.Rate", b =>
+            modelBuilder.Entity("cinema_core.Models.Room.Room", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("MinAge")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TotalRows")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalSeatsPerRow")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Rates");
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("cinema_core.Models.Room.RoomScreenType", b =>
+                {
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScreenTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoomId", "ScreenTypeId");
+
+                    b.HasIndex("ScreenTypeId");
+
+                    b.ToTable("RoomScreenTypes");
                 });
 
             modelBuilder.Entity("cinema_core.Models.ScreenType", b =>
@@ -112,6 +130,21 @@ namespace cinema_core.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRole");
+                });
+
+            modelBuilder.Entity("cinema_core.Models.Room.RoomScreenType", b =>
+                {
+                    b.HasOne("cinema_core.Models.Room.Room", "Room")
+                        .WithMany("RoomScreenTypes")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("cinema_core.Models.ScreenType", "ScreenType")
+                        .WithMany("RoomScreenTypes")
+                        .HasForeignKey("ScreenTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("cinema_core.Models.User.UserRole", b =>

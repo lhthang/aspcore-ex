@@ -1,4 +1,4 @@
-﻿using cinema_core.DTOs.ScreenTypeDTO;
+﻿using cinema_core.DTOs.ScreenTypeDTOs;
 using cinema_core.Models;
 using cinema_core.Repositories;
 using System;

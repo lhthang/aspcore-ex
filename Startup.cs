@@ -7,6 +7,7 @@ using cinema_core.Models.User;
 using cinema_core.Repositories;
 using cinema_core.Services;
 using cinema_core.Services;
+using cinema_core.Services.RoomSV;
 using cinema_core.Services.ScreenTypeSV;
 using cinema_core.Services.UserSV;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -89,6 +90,7 @@ namespace cinema_core
 
             services.AddScoped<IScreenTypeRepository, ScreenTypesService>();
             services.AddScoped<IUserRepository, UsersService>();
+            services.AddScoped<IRoomRepository, RoomsService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
