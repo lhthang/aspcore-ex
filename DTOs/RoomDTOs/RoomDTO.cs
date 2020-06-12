@@ -29,14 +29,17 @@ namespace cinema_core.DTOs.RoomDTOs
             this.TotalRows = room.TotalRows;
             this.TotalSeatsPerRow = room.TotalSeatsPerRow;
             this.TotalSeats = this.TotalSeatsPerRow * this.TotalRows;
-            foreach (var roomScreenType in room.RoomScreenTypes)
+            if (room.RoomScreenTypes != null)
             {
-                var screenType = new ScreenTypeDTO()
+                foreach (var roomScreenType in room.RoomScreenTypes)
                 {
-                    Id = roomScreenType.ScreenType.Id,
-                    Name = roomScreenType.ScreenType.Name,
-                };
-                list.Add(screenType);
+                    var screenType = new ScreenTypeDTO()
+                    {
+                        Id = roomScreenType.ScreenType.Id,
+                        Name = roomScreenType.ScreenType.Name,
+                    };
+                    list.Add(screenType);
+                }
             }
             this.ScreenTypes = list;
         }
