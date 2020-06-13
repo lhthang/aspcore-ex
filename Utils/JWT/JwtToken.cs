@@ -1,5 +1,6 @@
-﻿using cinema_core.Models.User;
+﻿using cinema_core.Models;
 using cinema_core.Repositories;
+using cinema_core.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System;

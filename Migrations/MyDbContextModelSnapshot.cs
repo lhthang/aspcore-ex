@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using cinema_core.Services;
+using cinema_core.Models.Base;
 
 namespace cinema_core.Migrations
 {
@@ -18,7 +18,24 @@ namespace cinema_core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("cinema_core.Models.Room.Room", b =>
+            modelBuilder.Entity("cinema_core.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("cinema_core.Models.Room", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +56,7 @@ namespace cinema_core.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.Room.RoomScreenType", b =>
+            modelBuilder.Entity("cinema_core.Models.RoomScreenType", b =>
                 {
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
@@ -69,24 +86,7 @@ namespace cinema_core.Migrations
                     b.ToTable("ScreenTypes");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.User.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("cinema_core.Models.User.User", b =>
+            modelBuilder.Entity("cinema_core.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,7 +117,7 @@ namespace cinema_core.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.User.UserRole", b =>
+            modelBuilder.Entity("cinema_core.Models.UserRole", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -132,9 +132,9 @@ namespace cinema_core.Migrations
                     b.ToTable("UserRole");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.Room.RoomScreenType", b =>
+            modelBuilder.Entity("cinema_core.Models.RoomScreenType", b =>
                 {
-                    b.HasOne("cinema_core.Models.Room.Room", "Room")
+                    b.HasOne("cinema_core.Models.Room", "Room")
                         .WithMany("RoomScreenTypes")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -147,15 +147,15 @@ namespace cinema_core.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("cinema_core.Models.User.UserRole", b =>
+            modelBuilder.Entity("cinema_core.Models.UserRole", b =>
                 {
-                    b.HasOne("cinema_core.Models.User.Role", "Role")
+                    b.HasOne("cinema_core.Models.Role", "Role")
                         .WithMany("UsersRole")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("cinema_core.Models.User.User", "User")
+                    b.HasOne("cinema_core.Models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

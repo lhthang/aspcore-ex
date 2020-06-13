@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using cinema_core.DTOs.RoomDTOs;
-using cinema_core.Form.Room;
-using cinema_core.Repositories;
-using Microsoft.AspNetCore.Http;
+using cinema_core.Form;
+using cinema_core.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cinema_core.Controllers

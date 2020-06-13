@@ -1,4 +1,5 @@
-﻿using cinema_core.Models.Room;
+﻿using cinema_core.Models;
+using cinema_core.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace cinema_core.Models
 {
-    public class ScreenType
+    public class ScreenType : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
 
         public string Name { get; set; }
 

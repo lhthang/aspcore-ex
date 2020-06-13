@@ -1,10 +1,10 @@
-﻿using cinema_core.Models.User;
+﻿using cinema_core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cinema_core.Repositories
+namespace cinema_core.Repositories.Interfaces
 {
     public interface IUserRepository
     {

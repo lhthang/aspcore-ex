@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cinema_core.Form.User
+namespace cinema_core.Form
 {
     public class UserRequest
     {

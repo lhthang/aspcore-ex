@@ -1,5 +1,5 @@
-﻿using cinema_core.Models.User;
-using cinema_core.Repositories;
+﻿using cinema_core.Models;
+using cinema_core.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

@@ -1,13 +1,11 @@
 ﻿using cinema_core.Models;
-using cinema_core.Models.Room;
-using cinema_core.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cinema_core.Services
+namespace cinema_core.Models.Base
 {
     public class MyDbContext : DbContext
     {

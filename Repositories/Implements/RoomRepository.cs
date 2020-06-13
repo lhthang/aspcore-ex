@@ -1,20 +1,22 @@
 ﻿using cinema_core.DTOs.RoomDTOs;
-using cinema_core.Form.Room;
-using cinema_core.Models.Room;
+using cinema_core.Form;
+using cinema_core.Models;
+using cinema_core.Models.Base;
 using cinema_core.Repositories;
+using cinema_core.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cinema_core.Services.RoomSV
+namespace cinema_core.Repositories.Implements
 {
-    public class RoomsService : IRoomRepository
+    public class RoomRepository : IRoomRepository
     {
         private MyDbContext dbContext;
 
-        public RoomsService(MyDbContext context)
+        public RoomRepository(MyDbContext context)
         {
             dbContext = context;
         }

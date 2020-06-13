@@ -1,17 +1,18 @@
-﻿using cinema_core.Models.User;
-using cinema_core.Repositories;
+﻿using cinema_core.Models;
+using cinema_core.Models.Base;
+using cinema_core.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cinema_core.Services.UserSV
+namespace cinema_core.Repositories.Implements
 {
-    public class UsersService : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private MyDbContext myDbContext;
 
-        public UsersService(MyDbContext context)
+        public UserRepository(MyDbContext context)
         {
             myDbContext = context;
         }

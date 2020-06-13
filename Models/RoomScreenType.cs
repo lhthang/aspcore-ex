@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cinema_core.Models.Room
+namespace cinema_core.Models
 {
     public class RoomScreenType
     {

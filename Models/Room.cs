@@ -1,22 +1,22 @@
-﻿using System;
+﻿using cinema_core.Models.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cinema_core.Form.Room
+namespace cinema_core.Models
 {
-    public class RoomRequest
+    public class Room : BaseEntity
     {
-        [Required]
+
         public string Name { get; set; }
 
-        [Required]
         public int TotalSeatsPerRow { get; set; }
 
-        [Required]
         public int TotalRows { get; set; }
 
-        public List<int> ScreenTypeIds { get; set; }
+        public virtual ICollection<RoomScreenType> RoomScreenTypes { get; set; }
     }
 }
