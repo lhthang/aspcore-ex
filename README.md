@@ -9,6 +9,11 @@ Rest API with ASP .NET CORE, SQL SERVER
 * [ASP .NET CORE](https://dotnet.microsoft.com)
 * [SQL SERVER](https://www.microsoft.com/en-us/sql-server)
 
+# Requirements
+* ASP.NET CORE 3.1 or higher
+* Visual Studio
+* SQLSERVER
+
 # Set up
 * Config your database url in appsettings.json
 * Delete folder Migration
