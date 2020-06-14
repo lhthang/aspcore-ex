@@ -67,7 +67,7 @@ namespace cinema_core.Controllers
                 ModelState.AddModelError("", "Something went wrong when save screen type");
                 return StatusCode(400, ModelState);
             }
-            return CreatedAtRoute("GetScreenType", new { id = screenType.Id }, screenType);
+            return RedirectToRoute("GetScreenType", new { id = screenType.Id });
         }
 
         // PUT: api/screen-types/5
@@ -95,7 +95,7 @@ namespace cinema_core.Controllers
                 ModelState.AddModelError("", "Something went wrong when update screen type");
                 return StatusCode(400, ModelState);
             }
-            return CreatedAtRoute("GetScreenType", new { id = screenType.Id }, screenType);
+            return RedirectToRoute("GetScreenType", new { id = screenType.Id });
         }
 
         // DELETE: api/screen-types/5

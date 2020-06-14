@@ -60,7 +60,7 @@ namespace cinema_core.Controllers
                 ModelState.AddModelError("", "Something went wrong when save room");
                 return StatusCode(400, ModelState);
             }
-            return CreatedAtRoute("GetRoom", new { id = room.Id }, new RoomDTO(room));
+            return RedirectToRoute("GetRoom", new { id = room.Id });
         }
 
         // POST: api/rooms
@@ -82,7 +82,7 @@ namespace cinema_core.Controllers
                 ModelState.AddModelError("", "Something went wrong when save room");
                 return StatusCode(400, ModelState);
             }
-            return CreatedAtRoute("GetRoom", new { id = id }, new RoomDTO(room));
+            return RedirectToRoute("GetRoom", new { id = id });
         }
 
         // DELETE: api/room/5
