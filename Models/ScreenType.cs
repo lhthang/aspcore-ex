@@ -15,5 +15,7 @@ namespace cinema_core.Models
         public string Name { get; set; }
 
         public virtual ICollection<RoomScreenType> RoomScreenTypes { get; set; }
+
+        public virtual Label Label { get; set; }
     }
 }

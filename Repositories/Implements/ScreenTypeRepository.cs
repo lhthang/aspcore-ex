@@ -1,7 +1,10 @@
 ﻿using cinema_core.DTOs.ScreenTypeDTOs;
+using cinema_core.Form;
 using cinema_core.Models;
 using cinema_core.Models.Base;
 using cinema_core.Repositories.Interfaces;
+using cinema_core.Utils;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +20,18 @@ namespace cinema_core.Repositories.Implements
         {
             dbContext = context;
         }
-        public bool CreateScreenType(ScreenType screenType)
+        public ScreenType CreateScreenType(ScreenTypeRequest screenTypeRequest)
         {
-            dbContext.AddAsync(screenType);
-            return Save();
+            var label = dbContext.Labels.Where(l => l.Id == screenTypeRequest.LabelId).FirstOrDefault();
+            var screenType = new ScreenType()
+            {
+                Name = screenTypeRequest.Name,
+                Label=label,
+            };
+            dbContext.Add(screenType);
+            var isSuccess=Save();
+            if (!isSuccess) return null;
+            return screenType;
         }
 
         public bool DeleteScreenType(ScreenType screenType)
@@ -31,27 +42,23 @@ namespace cinema_core.Repositories.Implements
 
         public ScreenType GetScreenTypeById(int Id)
         {
-            var screenType = dbContext.ScreenTypes.Where(sc => sc.Id == Id).FirstOrDefault();
+            var screenType = dbContext.ScreenTypes.Include(l => l.Label).Where(sc => sc.Id == Id).FirstOrDefault();
             return screenType;
         }
 
         public ScreenType GetScreenTypeByName(string name)
         {
-            var screenType = dbContext.ScreenTypes.Where(sc => sc.Name == name).FirstOrDefault();
+            var screenType = dbContext.ScreenTypes.Include(l => l.Label).Where(sc => sc.Name == name).FirstOrDefault();
             return screenType;
         }
 
         public ICollection<ScreenTypeDTO> GetScreenTypes()
         {
             List<ScreenTypeDTO> results = new List<ScreenTypeDTO>();
-            var screenTypes = dbContext.ScreenTypes.OrderBy(sc => sc.Id).ToList();
+            var screenTypes = dbContext.ScreenTypes.Include(l=>l.Label).OrderBy(sc => sc.Id).ToList();
             foreach (ScreenType screenType in screenTypes)
             {
-                results.Add(new ScreenTypeDTO()
-                {
-                    Id = screenType.Id,
-                    Name = screenType.Name,
-                });
+                results.Add(new ScreenTypeDTO(screenType));
             }
             return results;
         }
@@ -62,10 +69,20 @@ namespace cinema_core.Repositories.Implements
             return save > 0;
         }
 
-        public bool UpdateScreenType(ScreenType screenType)
+        public ScreenType UpdateScreenType(int id,ScreenTypeRequest screenTypeRequest)
         {
+            var label = dbContext.Labels.Where(l => l.Id == screenTypeRequest.LabelId).FirstOrDefault();
+
+            var screenType = dbContext.ScreenTypes.Where(s => s.Id == id).FirstOrDefault();
+
+            screenType.Label = label;
+            screenType.Name = screenTypeRequest.Name;
+
             dbContext.Update(screenType);
-            return Save();
+            var isSuccess = Save();
+            if (!isSuccess) return null;
+            return screenType;
+
         }
     }
 }

@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 
 using cinema_core.Models.Base;
-using cinema_core.Repositories.Implements;
-using cinema_core.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -86,9 +84,7 @@ namespace cinema_core
             var connectionString = Configuration["connectionString:defaultConnection"];
             services.AddDbContext<MyDbContext>(c => c.UseSqlServer(connectionString));
 
-            services.AddScoped<IScreenTypeRepository, ScreenTypeRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRoomRepository, RoomRepository>();
+            RepositoryRegister.Register(services);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

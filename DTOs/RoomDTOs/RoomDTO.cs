@@ -33,11 +33,7 @@ namespace cinema_core.DTOs.RoomDTOs
             {
                 foreach (var roomScreenType in room.RoomScreenTypes)
                 {
-                    var screenType = new ScreenTypeDTO()
-                    {
-                        Id = roomScreenType.ScreenType.Id,
-                        Name = roomScreenType.ScreenType.Name,
-                    };
+                    var screenType = new ScreenTypeDTO(roomScreenType.ScreenType);
                     list.Add(screenType);
                 }
             }

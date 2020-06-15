@@ -14,6 +14,7 @@ namespace cinema_core.Models.Base
         }
 
         public virtual DbSet<ScreenType> ScreenTypes { get; set; }
+        public virtual DbSet<Label> Labels { get; set; }
 
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<RoomScreenType> RoomScreenTypes { get; set; }
@@ -22,10 +23,12 @@ namespace cinema_core.Models.Base
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            //many-to-many relationship
             modelBuilder.Entity<UserRole>()
                .HasKey(us => new { us.RoleId, us.UserId });
 
@@ -51,6 +54,12 @@ namespace cinema_core.Models.Base
                 .HasOne(b => b.ScreenType)
                 .WithMany(bc => bc.RoomScreenTypes)
                 .HasForeignKey(b => b.ScreenTypeId);
+
+            //one-to-many relationship
+            modelBuilder.Entity<ScreenType>()
+                .HasOne(l => l.Label)
+                .WithMany(s => s.ScreenTypes)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
