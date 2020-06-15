@@ -82,7 +82,8 @@ namespace cinema_core.Controllers
                 ModelState.AddModelError("", "Something went wrong when save room");
                 return StatusCode(400, ModelState);
             }
-            return RedirectToRoute("GetRoom", new { id = id });
+            var param = id;
+            return RedirectToRoute("GetRoom", new { id = param });
         }
 
         // DELETE: api/room/5

@@ -76,7 +76,7 @@ namespace cinema_core.Repositories.Implements
             var screenType = dbContext.ScreenTypes.Where(s => s.Id == id).FirstOrDefault();
 
             screenType.Label = label;
-            screenType.Name = screenTypeRequest.Name;
+            Coppier<ScreenTypeRequest, ScreenType>.Copy(screenTypeRequest, screenType);
 
             dbContext.Update(screenType);
             var isSuccess = Save();
