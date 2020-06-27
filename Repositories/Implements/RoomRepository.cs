@@ -1,4 +1,5 @@
 ﻿using cinema_core.DTOs.RoomDTOs;
+using cinema_core.ErrorHandle;
 using cinema_core.Form;
 using cinema_core.Models;
 using cinema_core.Models.Base;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace cinema_core.Repositories.Implements
@@ -63,6 +65,7 @@ namespace cinema_core.Repositories.Implements
         public Room GetRoomById(int id)
         {
             var room = dbContext.Rooms.Where(r => r.Id == id).Include(rs => rs.RoomScreenTypes).ThenInclude(s => s.ScreenType).FirstOrDefault();
+            if (room == null) throw new CustomException(HttpStatusCode.NotFound, "not found");
             return room;
         }
 
@@ -74,6 +77,7 @@ namespace cinema_core.Repositories.Implements
         public Room UpdateRoom(int id,RoomRequest roomRequest)
         {
             var room = dbContext.Rooms.Where(r => r.Id == id).FirstOrDefault();
+            if (room == null) throw new CustomException(HttpStatusCode.NotFound, "not found");
 
             var screenTypesIsDelete = dbContext.RoomScreenTypes.Where(rs => rs.RoomId == id).ToList();
 

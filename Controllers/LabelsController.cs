@@ -23,37 +23,57 @@ namespace cinema_core.Controllers
         [HttpGet("{id}",Name ="GetLabel")]
         public IActionResult Get(int id)
         {
-            var isExist = labelRepository.GetLabelById(id);
-            if (isExist == null) return NotFound();
-            return Ok(new LabelDTO(isExist));
+            try
+            {
+                var isExist = labelRepository.GetLabelById(id);
+                return Ok(new LabelDTO(isExist));
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var isExist = labelRepository.GetLabelById(id);
-            if (isExist == null) return NotFound();
-
-            if (!labelRepository.DeleteLabel(isExist))
+            try
             {
-                ModelState.AddModelError("", "Something went wrong when delete label");
-                return StatusCode(400, ModelState);
+                var isExist = labelRepository.GetLabelById(id);
+
+                if (!labelRepository.DeleteLabel(isExist))
+                {
+                    ModelState.AddModelError("", "Something went wrong when delete label");
+                    return StatusCode(400, ModelState);
+                }
+                return Ok(new LabelDTO(isExist));
             }
-            return Ok(new LabelDTO(isExist));
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         [HttpPost()]
         public IActionResult Post([FromBody] Label label)
         {
-            if (!ModelState.IsValid)
-                return StatusCode(400, ModelState);
-
-            if (!labelRepository.CreateLabel(label))
+            try
             {
-                ModelState.AddModelError("", "Something went wrong when delete label");
-                return StatusCode(400, ModelState);
+                if (!ModelState.IsValid)
+                    return StatusCode(400, ModelState);
+
+                if (!labelRepository.CreateLabel(label))
+                {
+                    ModelState.AddModelError("", "Something went wrong when delete label");
+                    return StatusCode(400, ModelState);
+                }
+                return RedirectToRoute("GetLabel", new { id = label.Id });
             }
-            return RedirectToRoute("GetLabel",new { id = label.Id });
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

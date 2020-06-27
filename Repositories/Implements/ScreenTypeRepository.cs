@@ -1,4 +1,5 @@
 ﻿using cinema_core.DTOs.ScreenTypeDTOs;
+using cinema_core.ErrorHandle;
 using cinema_core.Form;
 using cinema_core.Models;
 using cinema_core.Models.Base;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace cinema_core.Repositories.Implements
@@ -43,12 +45,14 @@ namespace cinema_core.Repositories.Implements
         public ScreenType GetScreenTypeById(int Id)
         {
             var screenType = dbContext.ScreenTypes.Include(l => l.Label).Where(sc => sc.Id == Id).FirstOrDefault();
+            if (screenType == null) throw new CustomException(HttpStatusCode.NotFound, "screen type not found");
             return screenType;
         }
 
         public ScreenType GetScreenTypeByName(string name)
         {
             var screenType = dbContext.ScreenTypes.Include(l => l.Label).Where(sc => sc.Name == name).FirstOrDefault();
+            if (screenType == null) throw new CustomException(HttpStatusCode.NotFound, "screen type not found");
             return screenType;
         }
 

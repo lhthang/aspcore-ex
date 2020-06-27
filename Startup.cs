@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using cinema_core.ErrorHandle;
 using cinema_core.Models.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -128,6 +128,7 @@ namespace cinema_core
             }
             context.SeedDataContext();
 
+            app.UseMiddleware<ErrorHandling>();
             app.UseHttpsRedirection();
 
             app.UseRouting();

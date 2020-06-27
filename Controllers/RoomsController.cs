@@ -35,70 +35,100 @@ namespace cinema_core.Controllers
         [HttpGet("{id}", Name = "GetRoom")]
         public IActionResult Get(int id)
         {
-            var room = roomRepository.GetRoomById(id);
-            if (room == null)
-                return NotFound();
-            var roomDTO = new RoomDTO(room);
-            return Ok(roomDTO);
+            try
+            {
+                var room = roomRepository.GetRoomById(id);
+                if (room == null)
+                    return NotFound();
+                var roomDTO = new RoomDTO(room);
+                return Ok(roomDTO);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         // POST: api/rooms
         [HttpPost]
         public IActionResult Post([FromBody] RoomRequest roomRequest)
         {
-            if (roomRequest == null) return StatusCode(400, ModelState);
-
-            var statusCode = ValidateRoom(roomRequest);
-
-
-            if (!ModelState.IsValid)
-                return StatusCode(statusCode.StatusCode);
-
-            var room = roomRepository.CreateRoom(roomRequest);
-            if (room == null)
+            try
             {
-                ModelState.AddModelError("", "Something went wrong when save room");
-                return StatusCode(400, ModelState);
+                if (roomRequest == null) return StatusCode(400, ModelState);
+
+                var statusCode = ValidateRoom(roomRequest);
+
+
+                if (!ModelState.IsValid)
+                    return StatusCode(statusCode.StatusCode);
+
+                var room = roomRepository.CreateRoom(roomRequest);
+                if (room == null)
+                {
+                    ModelState.AddModelError("", "Something went wrong when save room");
+                    return StatusCode(400, ModelState);
+                }
+                return RedirectToRoute("GetRoom", new { id = room.Id });
             }
-            return RedirectToRoute("GetRoom", new { id = room.Id });
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
         }
 
         // POST: api/rooms
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] RoomRequest roomRequest)
         {
-            //if (roomRepository.GetRoomById(id) == null) return NotFound();
-
-            if (roomRequest == null) return StatusCode(400, ModelState);
-
-            var statusCode = ValidateRoom(roomRequest);
-
-            if (!ModelState.IsValid)
-                return StatusCode(statusCode.StatusCode);
-
-            var room = roomRepository.UpdateRoom(id, roomRequest);
-            if (room == null)
+            try
             {
-                ModelState.AddModelError("", "Something went wrong when save room");
-                return StatusCode(400, ModelState);
+                //if (roomRepository.GetRoomById(id) == null) return NotFound();
+
+                if (roomRequest == null) return StatusCode(400, ModelState);
+
+                var statusCode = ValidateRoom(roomRequest);
+
+                if (!ModelState.IsValid)
+                    return StatusCode(statusCode.StatusCode);
+
+                var room = roomRepository.UpdateRoom(id, roomRequest);
+                if (room == null)
+                {
+                    ModelState.AddModelError("", "Something went wrong when save room");
+                    return StatusCode(400, ModelState);
+                }
+                var param = id;
+                return RedirectToRoute("GetRoom", new { id = param });
             }
-            var param = id;
-            return RedirectToRoute("GetRoom", new { id = param });
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
         }
 
         // DELETE: api/room/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var isExist = roomRepository.GetRoomById(id);
-            if (isExist == null) return NotFound();
-
-            if (!roomRepository.DeleteRoom(isExist))
+            try
             {
-                ModelState.AddModelError("", "Something went wrong when delete room");
-                return StatusCode(400, ModelState);
+                var isExist = roomRepository.GetRoomById(id);
+                if (isExist == null) return NotFound();
+
+                if (!roomRepository.DeleteRoom(isExist))
+                {
+                    ModelState.AddModelError("", "Something went wrong when delete room");
+                    return StatusCode(400, ModelState);
+                }
+                return Ok(isExist);
             }
-            return Ok(isExist);
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         private StatusCodeResult ValidateRoom(RoomRequest roomRequest)

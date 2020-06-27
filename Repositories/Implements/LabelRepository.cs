@@ -1,9 +1,11 @@
-﻿using cinema_core.Models;
+﻿using cinema_core.ErrorHandle;
+using cinema_core.Models;
 using cinema_core.Models.Base;
 using cinema_core.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace cinema_core.Repositories.Implements
@@ -30,7 +32,9 @@ namespace cinema_core.Repositories.Implements
 
         public Label GetLabelById(int id)
         {
-            return dbContext.Labels.Where(l => l.Id == id).FirstOrDefault();
+            var label= dbContext.Labels.Where(l => l.Id == id).FirstOrDefault();
+            if (label == null) throw new CustomException(HttpStatusCode.NotFound, "not found");
+            return label;
         }
 
         public bool Save()
